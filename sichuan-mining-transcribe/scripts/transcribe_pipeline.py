@@ -276,8 +276,6 @@ def resolve_model(args: argparse.Namespace) -> str:
 def resolve_thinking(args: argparse.Namespace, model: str) -> str:
     if args.deepseek_thinking != "auto":
         return args.deepseek_thinking
-    if args.deepseek_tier == "pro" or model == DEFAULT_DEEPSEEK_PRO_MODEL or model.endswith("-pro"):
-        return "enabled"
     return "disabled"
 
 

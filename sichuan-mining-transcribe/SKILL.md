@@ -25,7 +25,7 @@ python scripts/transcribe_pipeline.py \
 
 3. Default production-quality output uses `--mode deepseek --deepseek-tier flash`. Use `--deepseek-tier pro` for higher quality or difficult transcripts. Use `--mode local` only for privacy-sensitive or offline fallback runs.
    - `flash` uses `deepseek-v4-flash` with thinking disabled for speed.
-   - `pro` uses `deepseek-v4-pro` with thinking enabled for higher quality.
+   - `pro` uses `deepseek-v4-pro` with thinking disabled by default for stable JSON output.
    - `--progress text` prints human-readable live progress.
    - `--progress jsonl` prints machine-readable events for agents and automations.
 4. Preserve both primary outputs:

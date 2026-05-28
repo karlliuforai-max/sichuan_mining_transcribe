@@ -29,6 +29,12 @@ DeepSeek 模式需要通过环境变量提供 API key：
 export DEEPSEEK_API_KEY="your-key"
 ```
 
+也可以复制 `.env.example` 为 `.env`，脚本会自动读取：
+
+```bash
+cp .env.example .env
+```
+
 离线本地模式：
 
 ```bash

@@ -29,8 +29,8 @@ python scripts/transcribe_pipeline.py \
 - `agent` currently behaves like local in the CLI. The calling agent may perform additional review after files are generated.
 - `auto` calls DeepSeek only if `DEEPSEEK_API_KEY` exists.
 - `deepseek` requires `DEEPSEEK_API_KEY`; otherwise the run fails with a clear error.
-- The default DeepSeek tier follows the current official docs: `flash` uses `deepseek-v4-flash` with thinking disabled for speed; `pro` uses `deepseek-v4-pro` with thinking enabled for higher-quality difficult transcripts.
-- Override thinking behavior only when needed with `--deepseek-thinking enabled` or `--deepseek-thinking disabled`.
+- The default DeepSeek tier follows the current official docs: `flash` uses `deepseek-v4-flash`; `pro` uses `deepseek-v4-pro`. Both default to thinking disabled for stable JSON output.
+- Override thinking behavior only for experiments with `--deepseek-thinking enabled` or `--deepseek-thinking disabled`.
 
 ## Progress
 

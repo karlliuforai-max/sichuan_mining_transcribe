@@ -1,18 +1,22 @@
 from __future__ import annotations
 
+import http.client
 import json
 import os
 from pathlib import Path
+import time
 from typing import Any, Callable
-from urllib import request
+from urllib import error, request
 
 
 DEFAULT_DEEPSEEK_BASE_URL = "https://api.deepseek.com"
 DEFAULT_DEEPSEEK_FLASH_MODEL = "deepseek-v4-flash"
 DEFAULT_DEEPSEEK_PRO_MODEL = "deepseek-v4-pro"
+ENV_LOADED = False
 
 
 def deepseek_available() -> bool:
+    load_dotenv_once()
     return bool(os.environ.get("DEEPSEEK_API_KEY"))
 
 
@@ -30,6 +34,7 @@ def correct_with_deepseek(
     base_url: str | None = None,
     progress_callback: Callable[[int, int, int, int], None] | None = None,
 ) -> tuple[str, list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    load_dotenv_once()
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         raise RuntimeError("DEEPSEEK_API_KEY is required for deepseek mode.")
@@ -61,7 +66,15 @@ def correct_with_deepseek(
             max_tokens=6000,
             thinking=thinking,
         )
-        corrected = str(data.get("corrected_text", chunk))
+        corrected = str(data.get("corrected_text") or "").strip()
+        if not corrected:
+            corrected = chunk
+            uncertain.append(
+                {
+                    "text": f"第 {index} 段模型返回空 corrected_text，已回退为本地纠错结果。",
+                    "reason": "DeepSeek 返回结构不完整或空文本",
+                }
+            )
         corrected_chunks.append(corrected)
         changes.extend(as_list(data.get("changes")))
         uncertain.extend(as_list(data.get("uncertain_items")))
@@ -83,6 +96,7 @@ def generate_semantic_minutes_with_deepseek(
     source_names: list[str],
     base_url: str | None = None,
 ) -> dict[str, Any]:
+    load_dotenv_once()
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         raise RuntimeError("DEEPSEEK_API_KEY is required for semantic minutes generation.")
@@ -111,6 +125,36 @@ def normalize_chat_completions_url(base_url: str) -> str:
     return f"{base_url}/chat/completions"
 
 
+def load_dotenv_once() -> None:
+    global ENV_LOADED
+    if ENV_LOADED:
+        return
+    ENV_LOADED = True
+    for path in dotenv_candidates():
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#") or "=" not in stripped:
+                continue
+            key, value = stripped.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+def dotenv_candidates() -> list[Path]:
+    script_dir = Path(__file__).resolve().parent
+    skill_dir = script_dir.parent
+    workspace_dir = skill_dir.parent
+    return [
+        Path.cwd() / ".env",
+        workspace_dir / ".env",
+        skill_dir / ".env",
+    ]
+
+
 def call_deepseek(
     url: str,
     api_key: str,
@@ -134,24 +178,37 @@ def call_deepseek(
         payload["reasoning_effort"] = "high"
     else:
         payload["temperature"] = 0.1
-    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    req = request.Request(
-        url,
-        data=body,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
-    with request.urlopen(req, timeout=300) as response:
-        raw = response.read().decode("utf-8")
+    raw = post_with_retries(url=url, api_key=api_key, payload=payload)
     envelope = json.loads(raw)
     content = envelope["choices"][0]["message"]["content"]
     try:
         return json.loads(content)
     except json.JSONDecodeError:
         return {"corrected_text": content, "changes": [], "uncertain_items": [], "learn_candidates": []}
+
+
+def post_with_retries(url: str, api_key: str, payload: dict[str, Any], attempts: int = 3) -> str:
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    last_error: BaseException | None = None
+    for attempt in range(1, attempts + 1):
+        req = request.Request(
+            url,
+            data=body,
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with request.urlopen(req, timeout=300) as response:
+                return response.read().decode("utf-8")
+        except (TimeoutError, http.client.IncompleteRead, http.client.HTTPException, error.URLError) as exc:
+            last_error = exc
+            if attempt >= attempts:
+                break
+            time.sleep(2 ** attempt)
+    raise RuntimeError(f"DeepSeek request failed after {attempts} attempts: {last_error}") from last_error
 
 
 def as_list(value: Any) -> list[dict[str, Any]]:
