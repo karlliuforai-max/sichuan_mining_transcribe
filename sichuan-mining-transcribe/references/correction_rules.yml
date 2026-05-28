@@ -1,0 +1,88 @@
+strong_replacements:
+  - wrong: 品味
+    correct: 品位
+    status: confirmed
+    note: 矿业语境中通常为品位
+  - wrong: 频率
+    correct: 品位
+    status: candidate
+    note: 锂矿报价和检测语境中常误识为频率，需结合上下文复核
+  - wrong: 月矿
+    correct: 原矿
+    status: confirmed
+    note: 锂矿业务语境固定错词
+  - wrong: 圆矿
+    correct: 原矿
+    status: confirmed
+    note: 锂矿业务语境固定错词
+  - wrong: 原款
+    correct: 原矿
+    status: candidate
+    note: 常见误识，但合同/付款语境需复核
+  - wrong: 金粉
+    correct: 精粉
+    status: candidate
+    note: 锂矿精粉语境常见误识
+  - wrong: 尽分
+    correct: 精粉
+    status: candidate
+    note: 锂矿精粉语境常见误识
+  - wrong: 李辉时
+    correct: 锂辉石
+    status: confirmed
+    note: 矿物术语
+  - wrong: 铝灰石
+    correct: 锂辉石
+    status: confirmed
+    note: 矿物术语
+  - wrong: 李矿
+    correct: 锂矿
+    status: candidate
+    note: 锂矿语境常见误识
+  - wrong: 假常识
+    correct: 钾长石
+    status: confirmed
+    note: 矿物术语
+  - wrong: 价常识
+    correct: 钾长石
+    status: confirmed
+    note: 矿物术语
+  - wrong: 驾乘师
+    correct: 钾长石
+    status: candidate
+    note: 音近误识，需结合矿物上下文
+  - wrong: 淘宝
+    correct: 套保
+    status: candidate
+    note: 期货、现货、做空、手数语境中常为套保
+  - wrong: 逃宝
+    correct: 套保
+    status: candidate
+    note: 期货、现货、做空、手数语境中常为套保
+  - wrong: 套碗
+    correct: 套保
+    status: candidate
+    note: 期货、现货、做空、手数语境中常为套保
+  - wrong: 评委
+    correct: 品位
+    status: candidate
+    note: 检测数据、矿石含量上下文中可能为品位
+  - wrong: 会审
+    correct: 回收
+    status: candidate
+    note: 回收率、选矿测算语境中可能为回收
+  - wrong: 复显
+    correct: 浮选
+    status: candidate
+    note: 选矿工艺术语，需复核
+
+regex_replacements:
+  - pattern: '(?P<num>[0-9零一二三四五六七八九十百千万两点\.]+)人(?=(?:左右|多|出来|拉|堆|矿|，|。|\s|$))'
+    replacement: '\g<num>吨'
+    status: candidate
+    note: 矿石数量语境中“人”常为“吨”，必须复核
+  - pattern: '(?P<num>[0-9]+(?:\.[0-9]+)?)的频率'
+    replacement: '\g<num>的品位'
+    status: candidate
+    note: 数字检测语境中的频率常为品位
+

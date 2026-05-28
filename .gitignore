@@ -1,0 +1,18 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Real meeting source files and generated transcript/minutes outputs may contain
+# sensitive business content. Keep only placeholder files in git.
+转写源/
+sichuan-mining-transcribe/outputs/**
+!sichuan-mining-transcribe/outputs/.gitkeep
+
+# Private learning data grows from real meetings.
+sichuan-mining-transcribe/knowledge/*.jsonl
+!sichuan-mining-transcribe/knowledge/.gitkeep
+
+# Local environment files and secrets.
+.env
+.env.*
+*.key
