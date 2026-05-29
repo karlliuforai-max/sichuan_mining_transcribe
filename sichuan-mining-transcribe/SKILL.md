@@ -15,7 +15,7 @@ Use this skill when the user provides PDF/TXT transcripts from mining meetings i
 ```bash
 python scripts/transcribe_pipeline.py \
   --input /path/to/source-or-dir \
-  --output outputs/run-001 \
+  --output outputs/runs/run-001 \
   --mode deepseek \
   --deepseek-tier flash \
   --progress text \

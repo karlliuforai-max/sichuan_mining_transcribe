@@ -5,7 +5,7 @@
 ```bash
 python scripts/transcribe_pipeline.py \
   --input 转写源 \
-  --output outputs/run-001 \
+  --output outputs/runs/run-001 \
   --mode deepseek \
   --deepseek-tier flash \
   --progress text \
