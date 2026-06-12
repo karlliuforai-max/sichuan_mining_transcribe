@@ -2,3 +2,16 @@ __pycache__/
 *.pyc
 .DS_Store
 
+# Secrets — never commit the real key
+.env
+.env.*
+!.env.example
+
+# Run artifacts
+outputs/*
+!outputs/.gitkeep
+
+# Raw meeting sources stay local; the knowledge/ base intentionally travels with the skill.
+*.txt
+!requirements.txt
+*.pdf

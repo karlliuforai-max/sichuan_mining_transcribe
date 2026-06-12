@@ -1,8 +1,0 @@
-interface:
-  display_name: "Sichuan Mining Transcribe"
-  short_description: "四川矿业会议转写纠错与纪要"
-  default_prompt: "Use $sichuan-mining-transcribe to correct this Sichuan mining meeting transcript and generate structured minutes."
-
-policy:
-  allow_implicit_invocation: true
-

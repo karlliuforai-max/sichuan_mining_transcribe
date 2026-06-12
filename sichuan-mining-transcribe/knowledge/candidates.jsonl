@@ -1,0 +1,13 @@
+{"wrong": "频率", "right": "品位", "count": 6, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "原款", "right": "原矿", "count": 2, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "金粉", "right": "精粉", "count": 15, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "尽分", "right": "精粉", "count": 2, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "李矿", "right": "锂矿", "count": 1, "meetings": ["历史积累"], "last_seen": "2026-06-12"}
+{"wrong": "驾乘师", "right": "钾长石", "count": 1, "meetings": ["历史积累"], "last_seen": "2026-06-12"}
+{"wrong": "淘宝", "right": "套保", "count": 6, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "逃宝", "right": "套保", "count": 1, "meetings": ["历史积累"], "last_seen": "2026-06-12"}
+{"wrong": "套碗", "right": "套保", "count": 1, "meetings": ["历史积累"], "last_seen": "2026-06-12"}
+{"wrong": "评委", "right": "品位", "count": 9, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "会审", "right": "回收", "count": 1, "meetings": ["历史积累"], "last_seen": "2026-06-12"}
+{"wrong": "复显", "right": "浮选", "count": 3, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}
+{"wrong": "(?P<num>[0-9零一二三四五六七八九十百千万两点\\.]+)人(?=(?:左右|多|出来|拉|堆|矿|，|。|\\s|$))", "right": "\\g<num>吨", "count": 2, "meetings": ["历史积累A", "历史积累B"], "last_seen": "2026-06-12"}

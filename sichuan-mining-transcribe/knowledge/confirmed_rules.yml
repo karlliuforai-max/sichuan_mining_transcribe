@@ -1,0 +1,28 @@
+# 已确认纠错规则
+# replacements: 高置信硬规则,运行时本地直接替换(不耗 API)。
+#   通过 `python transcribe.py review` 审核晋升,或手工添加。
+# context_hints: 上下文敏感的纠错对照,不直接替换,注入模型提示词由模型结合上下文判断。
+
+replacements:
+  - {wrong: 品味, right: 品位, note: 矿业语境固定用法}
+  - {wrong: 月矿, right: 原矿, note: 锂矿业务语境固定错词}
+  - {wrong: 圆矿, right: 原矿, note: 锂矿业务语境固定错词}
+  - {wrong: 李辉时, right: 锂辉石, note: 矿物术语}
+  - {wrong: 铝灰石, right: 锂辉石, note: 矿物术语}
+  - {wrong: 假常识, right: 钾长石, note: 矿物术语}
+  - {wrong: 价常识, right: 钾长石, note: 矿物术语}
+
+context_hints:
+  - {wrong: 频率, right: 品位, note: 锂矿报价和检测数据语境中常误识为频率}
+  - {wrong: 评委, right: 品位, note: 检测数据、矿石含量语境}
+  - {wrong: 原款, right: 原矿, note: 合同/付款语境需区分}
+  - {wrong: 金粉, right: 精粉, note: 锂矿精粉语境常见误识}
+  - {wrong: 尽分, right: 精粉, note: 锂矿精粉语境常见误识}
+  - {wrong: 李矿, right: 锂矿, note: 锂矿语境常见误识}
+  - {wrong: 驾乘师, right: 钾长石, note: 音近误识,需结合矿物上下文}
+  - {wrong: 淘宝, right: 套保, note: 期货、现货、做空、手数语境}
+  - {wrong: 逃宝, right: 套保, note: 期货、现货、做空、手数语境}
+  - {wrong: 套碗, right: 套保, note: 期货、现货、做空、手数语境}
+  - {wrong: 会审, right: 回收, note: 回收率、选矿测算语境}
+  - {wrong: 复显, right: 浮选, note: 选矿工艺术语}
+  - {wrong: 人, right: 吨, note: 矿石数量语境中"xx人左右/xx人拉"常为"吨",涉及数量必须复核}
