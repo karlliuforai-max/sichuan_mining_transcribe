@@ -4,16 +4,24 @@ __pycache__/
 .venv/
 sichuan-mining-transcribe/.venv/
 
+# Local dev tooling (codegraph index, MCP / Claude Code config) — machine-specific.
+.codegraph/
+.claude/
+.mcp.json
+
 # Real meeting source files and generated transcript/minutes outputs may contain
 # sensitive business content. Keep only placeholder files in git.
 转写源/
 sichuan-mining-transcribe/outputs/**
 !sichuan-mining-transcribe/outputs/.gitkeep
 
-# Private learning data grows from real meetings.
-sichuan-mining-transcribe/knowledge/*.jsonl
-!sichuan-mining-transcribe/knowledge/.gitkeep
-!sichuan-mining-transcribe/knowledge/learned_candidates.jsonl
+# Knowledge base (glossary, rules, candidates) travels WITH the skill on purpose,
+# so it is intentionally NOT ignored — deploying the skill carries learned corrections.
+
+# Raw meeting transcripts dropped into the skill dir stay local.
+sichuan-mining-transcribe/*.txt
+!sichuan-mining-transcribe/requirements.txt
+sichuan-mining-transcribe/*.pdf
 
 # Local environment files and secrets.
 .env
